@@ -1,19 +1,21 @@
 const express = require('express')
-const path = require('path')
 const app = express()
 
-app.use(express.static('./public'))
+const logger = (req, res, next) => {
+    const method = req.method;
+    const url = req.url
+    const time = new Date().getFullYear()
+    console.log(method, url, time);
+}
 
-/*
-app.get('/',(req,res) => {
-    res.sendFile(path.resolve(__dirname,'./navbar-app/index.html'))
+app.get('/',logger, (req,res) => {
+    res.send('home')
 })
-*/
 
-app.all('*', (req,res) => {
-    res.status(404).send("<h1> error </h1>")
+app.get('/about', (req,res) => {
+    res.send('about')
 })
 
-app.listen(5000,()=>{
-    console.log("somsom")
+app.listen(5000, ()=>{
+    console.log("The server is running on port 5000...");
 })
